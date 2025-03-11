@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorDetail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MovieDetailActivity">
+
+    <!-- AppBarLayout for the collapsing image -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:theme="@style/ThemeOverlay.Material3.ActionBar"
+        app:liftOnScroll="true">
+
+        <!-- CollapsingToolbarLayout with the poster image as a backdrop -->
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="?attr/colorPrimary">
+
+            <!-- Poster Image (parallax effect) -->
+            <ImageView
+                android:id="@+id/imageViewPoster"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/movie_poster"
+                app:layout_collapseMode="parallax" />
+
+            <!-- Top bar for collapsing -->
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBarDetail"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="top"
+                app:layout_collapseMode="pin" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Content below the collapsing area -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:padding="16dp">
+
+        <!-- Main content container -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Movie Title -->
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingBottom="8dp" />
+
+            <!-- Movie Overview -->
+            <TextView
+                android:id="@+id/textViewOverview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:lineSpacingExtra="4sp"
+                android:paddingBottom="16dp" />
+
+            <!-- Bookmark Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonBookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bookmark"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginBottom="16dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
