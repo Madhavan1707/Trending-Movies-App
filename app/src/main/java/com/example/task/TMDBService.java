@@ -24,4 +24,8 @@ public interface TMDBService {
 
     @GET("movie/{movie_id}/similar")
     Single<MoviesResponse> getSimilarMovies(@Path("movie_id") int movieId, @Query("api_key") String apiKey);
+
+    @GET("movie/{movie_id}/videos")
+    Single<VideosResponse> getMovieVideos(@Path("movie_id") int movieId, @Query("api_key") String apiKey);
+
 }

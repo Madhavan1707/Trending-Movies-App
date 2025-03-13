@@ -1,5 +1,6 @@
 package com.example.task;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,58 +26,108 @@ public class SearchActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        // Dagger injection
         ((MainApplication) getApplication()).getAppComponent().inject(this);
 
+        // Toolbar
         searchToolbar = findViewById(R.id.searchToolbar);
         setSupportActionBar(searchToolbar);
 
-        // Container for search input and RecyclerView
+        // Container & EditText
         searchContainer = findViewById(R.id.searchContainer);
-
         searchInput = findViewById(R.id.search_input);
-        // Initially hidden
-        searchInput.setVisibility(View.GONE);
+        searchInput.setVisibility(View.VISIBLE);
+        searchInput.requestFocus();
 
+        // RecyclerView & Adapter
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         movieAdapter = new MovieAdapter(new ArrayList<>());
         recyclerView.setAdapter(movieAdapter);
 
-        // Set toolbar menu click listener
-        searchToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_search) {
-                TransitionManager.beginDelayedTransition((android.view.ViewGroup) searchContainer, new AutoTransition());
-                searchInput.setVisibility(View.VISIBLE);
-                searchInput.requestFocus();
-                return true;
-            }
-            return false;
+        // KEY LINE: set the click listener
+        movieAdapter.setOnItemClickListener(movie -> {
+            Intent intent = new Intent(SearchActivity.this, MovieDetailActivity.class);
+            intent.putExtra(MovieDetailActivity.EXTRA_MOVIE_ID, movie.id);
+            startActivity(intent);
         });
 
+        // ViewModel & Observers
         searchViewModel = new SearchViewModel(movieRepository);
-        searchViewModel.getSearchResults().observe(this, new Observer<List<Movie>>() {
-            @Override
-            public void onChanged(List<Movie> movies) {
-                if (movies != null) {
-                    movieAdapter.updateMovies(movies);
-                }
+        searchViewModel.getSearchResults().observe(this, movies -> {
+            if (movies != null) {
+                movieAdapter.updateMovies(movies);
             }
         });
 
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 searchViewModel.setSearchQuery(s.toString());
             }
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {}
         });
     }
+
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_search);
+//
+//        // Inject dependencies
+//        ((MainApplication) getApplication()).getAppComponent().inject(this);
+//
+//        // Initialize the toolbar
+//        searchToolbar = findViewById(R.id.searchToolbar);
+//        setSupportActionBar(searchToolbar);
+//
+//        // The container that holds the search field and results
+//        searchContainer = findViewById(R.id.searchContainer);
+//
+//        // Grab the EditText
+//        searchInput = findViewById(R.id.search_input);
+//
+//        // -- KEY FIX --
+//        // Make the EditText visible right away
+//        searchInput.setVisibility(View.VISIBLE);
+//        // Give it focus so the keyboard opens
+//        searchInput.requestFocus();
+//
+//        // Set up the RecyclerView
+//        recyclerView = findViewById(R.id.recycler_view);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        movieAdapter = new MovieAdapter(new ArrayList<>());
+//        recyclerView.setAdapter(movieAdapter);
+//
+//        // Set up the ViewModel & observe results
+//        searchViewModel = new SearchViewModel(movieRepository);
+//        searchViewModel.getSearchResults().observe(this, movies -> {
+//            if (movies != null) {
+//                movieAdapter.updateMovies(movies);
+//            }
+//        });
+//
+//        // Trigger search when text changes
+//        searchInput.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                searchViewModel.setSearchQuery(s.toString());
+//            }
+//            @Override
+//            public void afterTextChanged(Editable s) {}
+//        });
+//    }
+
 }

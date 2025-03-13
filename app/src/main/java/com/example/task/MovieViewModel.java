@@ -85,13 +85,32 @@ public class MovieViewModel extends ViewModel {
 
 
     public void fetchNowPlayingMovies() {
-        disposables.add(movieRepository.getNowPlayingMovies()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(movies -> nowPlayingMovies.setValue(movies),
-                        throwable -> {
-                            // You can add error handling here as needed
-                        }));
+        disposables.add(
+                movieRepository.getNowPlayingMovies()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                movies -> nowPlayingMovies.setValue(movies),
+                                throwable -> {
+                                    Log.e("MovieViewModel", "Error fetching now playing movies, falling back to local data", throwable);
+                                    movieRepository.getLocalMovies()
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(
+                                                    localMovies -> {
+                                                        if (localMovies != null && !localMovies.isEmpty()) {
+                                                            nowPlayingMovies.setValue(localMovies);
+                                                        } else {
+                                                            errorMessage.setValue("No internet and no cached data available (now playing).");
+                                                        }
+                                                    },
+                                                    localError -> {
+                                                        Log.e("MovieViewModel", "Error fetching local movies for now playing fallback", localError);
+                                                    }
+                                            );
+                                }
+                        )
+        );
     }
+
 
     @Override
     protected void onCleared() {

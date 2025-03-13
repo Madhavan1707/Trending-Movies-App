@@ -35,6 +35,11 @@ public class MovieRepository {
                 });
     }
 
+    public Single<VideosResponse> getMovieVideos(int movieId) {
+        return tmdbService.getMovieVideos(movieId, apiKey)
+                .subscribeOn(Schedulers.io());
+    }
+
     public Single<List<Movie>> searchMovies(String query) {
         return tmdbService.searchMovies(apiKey, query)
                 .subscribeOn(Schedulers.io())
@@ -52,8 +57,10 @@ public class MovieRepository {
     }
 
     public Single<List<Movie>> getLocalMovies() {
-        return movieDao.getAllMovies();
+        return movieDao.getAllMovies()
+                .subscribeOn(Schedulers.io());
     }
+
 
 
     public Single<CreditsResponse> getCreditsForMovie(int movieId) {

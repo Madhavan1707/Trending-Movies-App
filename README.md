@@ -21,6 +21,8 @@ The project follows a clean architecture pattern with separation of concerns:
 - **Trending Movies:** Home screen displays trending movies in a 2-column grid.
 - **Movie Details:** Detailed view with a collapsing toolbar that shows movie poster, title, overview, release date, rating (both numeric and via RatingBar), cast list with profile images, a trailer button that launches YouTube, and similar movies.
 - **Offline Support:** Caches API responses using Room so that movies can be loaded even without an active internet connection.
+- **Search**: An animated search bar in the search screen that provides debounced search results.
+- **Offline Support**: Caches API responses using Room so that movies can be loaded even without an active internet connection.
 
 
 ## Libraries Used
@@ -74,7 +76,6 @@ The project follows a clean architecture pattern with separation of concerns:
 - **Cast and Similar Movies:** These features depend on TMDB’s available data. If a movie has missing cast or similar movies information, those sections might appear empty.
 - **Trailer URL:** The trailer button uses a placeholder URL. Integration with TMDB’s trailer endpoint (or YouTube API) can further enhance this feature.
 - **Bookmarking**.
-- **Search Capabilities**.
 
 
 ## Contributing

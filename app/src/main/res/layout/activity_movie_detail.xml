@@ -137,6 +137,7 @@
                 style="@style/Widget.MaterialComponents.Button"
                 />
 
+
             <!-- Similar Movies Section -->
             <TextView
                 android:id="@+id/textViewSimilarLabel"
