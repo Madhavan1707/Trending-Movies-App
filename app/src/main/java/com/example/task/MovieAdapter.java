@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import java.util.List;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
@@ -43,13 +45,35 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return new MovieViewHolder(view);
     }
 
+//    @Override
+//    public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
+//        Movie movie = movies.get(position);
+//        holder.titleTextView.setText(movie.title);
+//        String posterUrl = POSTER_BASE_URL + movie.posterPath;
+//        Glide.with(holder.itemView.getContext())
+//                .load(posterUrl)
+//                .into(holder.posterImageView);
+//
+//        // Set up the click listener for this item
+//        holder.itemView.setOnClickListener(v -> {
+//            if (listener != null) {
+//                listener.onItemClick(movie);
+//            }
+//        });
+//    }
+
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         Movie movie = movies.get(position);
         holder.titleTextView.setText(movie.title);
         String posterUrl = POSTER_BASE_URL + movie.posterPath;
+
+        // Load the image with Glide using a placeholder, error fallback, and caching strategy
         Glide.with(holder.itemView.getContext())
                 .load(posterUrl)
+                .placeholder(R.drawable.loading_placeholder)  // image shown while loading
+                .error(R.drawable.offline_fallback)            // fallback image if loading fails
+                .diskCacheStrategy(DiskCacheStrategy.ALL)        // cache both the original and the resized image
                 .into(holder.posterImageView);
 
         // Set up the click listener for this item
@@ -59,6 +83,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             }
         });
     }
+
 
     @Override
     public int getItemCount() {

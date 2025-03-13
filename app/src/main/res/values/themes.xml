@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
-    <!-- Use Material 3 DayNight NoActionBar as the parent -->
+    <!-- Base theme using Material 3 DayNight NoActionBar -->
     <style name="Base.Theme.Task" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your Material 3 theme here if needed -->
+        <!-- Customize Material 3 attributes as needed -->
     </style>
-
     <style name="Theme.Task" parent="Base.Theme.Task" />
-
 </resources>

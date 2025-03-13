@@ -2,6 +2,10 @@ package com.example.task;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,37 +27,56 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // Inject via Dagger
         ((MainApplication) getApplication()).getAppComponent().inject(this);
 
-        // Set up top app bar
         topAppBar = findViewById(R.id.topAppBar);
-        setSupportActionBar(topAppBar);  // optional if you want default menu handling
+        setSupportActionBar(topAppBar);
+
+        if (getSupportActionBar() != null) {
+            // Make sure we show the title in the toolbar
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setTitle("Trending Movies");
+        }
 
         recyclerView = findViewById(R.id.recyclerViewMovies);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(8)); // 8px spacing
-
-
-        // Use a 2-column grid
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(16));
 
         movieAdapter = new MovieAdapter(new ArrayList<>());
         recyclerView.setAdapter(movieAdapter);
 
-        // Navigate to detail screen on item click
         movieAdapter.setOnItemClickListener(movie -> {
             Intent intent = new Intent(HomeActivity.this, MovieDetailActivity.class);
             intent.putExtra(MovieDetailActivity.EXTRA_MOVIE_ID, movie.id);
             startActivity(intent);
         });
 
-        // Set up ViewModel
         movieViewModel = new MovieViewModel(movieRepository);
         movieViewModel.getTrendingMovies().observe(this, movies -> {
             if (movies != null && !movies.isEmpty()) {
                 movieAdapter.updateMovies(movies);
             }
         });
+        movieViewModel.getErrorMessage().observe(this, error -> {
+            if (error != null) {
+                Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_search) {
+            startActivity(new Intent(this, SearchActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -68,6 +68,40 @@
                 android:textStyle="bold"
                 android:paddingBottom="8dp" />
 
+            <!-- Release Date -->
+            <TextView
+                android:id="@+id/textViewReleaseDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray"
+                android:paddingBottom="4dp" />
+
+            <!-- Rating: Numeric and RatingBar -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp">
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="0.5"
+                    android:isIndicator="true" />
+
+                <TextView
+                    android:id="@+id/textViewRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="8dp"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
             <!-- Movie Overview -->
             <TextView
                 android:id="@+id/textViewOverview"
@@ -77,14 +111,48 @@
                 android:lineSpacingExtra="4sp"
                 android:paddingBottom="16dp" />
 
-            <!-- Bookmark Button -->
+            <!-- Horizontal Cast List -->
+            <TextView
+                android:id="@+id/textViewCastLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cast"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewCast"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal" />
+
+            <!-- Trailer Button -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonBookmark"
+                android:id="@+id/buttonTrailer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bookmark"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_marginBottom="16dp" />
+                android:text="Watch Trailer"
+                android:layout_marginTop="16dp"
+                style="@style/Widget.MaterialComponents.Button"
+                />
+
+            <!-- Similar Movies Section -->
+            <TextView
+                android:id="@+id/textViewSimilarLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You might also like"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewSimilar"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:orientation="horizontal" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

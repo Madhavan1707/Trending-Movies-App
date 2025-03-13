@@ -2,26 +2,39 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/homeRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/home_background">
 
-    <!-- Top App Bar -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/topAppBar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:backgroundTint="?attr/colorPrimary"
-        android:title="Trending Movies"
-        android:theme="@style/ThemeOverlay.Material3.ActionBar"
-        app:layout_scrollFlags="scroll|enterAlways" />
+        android:layout_height="wrap_content">
 
-    <!-- RecyclerView for movies -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:backgroundTint="@color/purple_700"
+            android:elevation="8dp"
+        android:title="Trending Movies"
+        android:titleTextColor="@android:color/white"
+
+        android:theme="@style/ThemeOverlay.Material3.ActionBar"
+
+            app:contentInsetStartWithNavigation="0dp"
+            app:contentInsetEndWithActions="0dp"
+
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+            />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMovies"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:padding="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

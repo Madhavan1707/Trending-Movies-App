@@ -37,21 +37,52 @@ public class MovieViewModel extends ViewModel {
         return errorMessage;
     }
 
+//    public void fetchTrendingMovies() {
+//        disposables.add(movieRepository.getTrendingMovies()
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        movies -> {
+//                            trendingMovies.setValue(movies);
+//                            Log.d("MovieViewModel", "Fetched " + movies.size() + " trending movies");
+//                        },
+//                        throwable -> {
+//                            String error = throwable.getMessage();
+//                            Log.e("MovieViewModel", "Error fetching trending movies", throwable);
+//                            errorMessage.setValue("Error fetching trending movies: " + error);
+//                        }
+//                ));
+//    }
+
+
     public void fetchTrendingMovies() {
-        disposables.add(movieRepository.getTrendingMovies()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        movies -> {
-                            trendingMovies.setValue(movies);
-                            Log.d("MovieViewModel", "Fetched " + movies.size() + " trending movies");
-                        },
-                        throwable -> {
-                            String error = throwable.getMessage();
-                            Log.e("MovieViewModel", "Error fetching trending movies", throwable);
-                            errorMessage.setValue("Error fetching trending movies: " + error);
-                        }
-                ));
+        disposables.add(
+                movieRepository.getTrendingMovies()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                movies -> trendingMovies.setValue(movies),
+                                throwable -> {
+                                    // Log error and fall back to local movies
+                                    Log.e("MovieViewModel", "Error fetching trending movies, falling back to local data", throwable);
+                                    movieRepository.getLocalMovies()
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(
+                                                    localMovies -> {
+                                                        if (localMovies != null && !localMovies.isEmpty()) {
+                                                            trendingMovies.setValue(localMovies);
+                                                        } else {
+                                                            // Optionally, set an error message LiveData to notify the UI
+                                                            errorMessage.setValue("No internet and no cached data available");
+                                                        }
+                                                    },
+                                                    localError -> {
+                                                        Log.e("MovieViewModel", "Error fetching local movies", localError);
+                                                    }
+                                            );
+                                }
+                        )
+        );
     }
+
 
     public void fetchNowPlayingMovies() {
         disposables.add(movieRepository.getNowPlayingMovies()

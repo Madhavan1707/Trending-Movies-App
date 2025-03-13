@@ -2,7 +2,6 @@ package com.example.task;
 
 import android.graphics.Rect;
 import android.view.View;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {

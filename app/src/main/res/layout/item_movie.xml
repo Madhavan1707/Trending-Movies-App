@@ -5,15 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardUseCompatPadding="true"
-    app:cardElevation="4dp">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:strokeColor="@android:color/transparent"
+    app:strokeWidth="0dp"
+    android:clipToOutline="true"
+    android:foreground="?selectableItemBackgroundBorderless"
+    app:cardBackgroundColor="@color/semi_transparent_white">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Poster Image -->
         <ImageView
             android:id="@+id/imageViewPoster"
             android:layout_width="match_parent"
@@ -21,18 +24,15 @@
             android:scaleType="centerCrop"
             android:contentDescription="@string/movie_poster" />
 
-        <!-- Movie Title overlay -->
         <TextView
             android:id="@+id/textViewTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
             android:padding="8dp"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
             android:textStyle="bold"
-            android:background="#80000000" />
+            android:textSize="16sp" />
 
-    </FrameLayout>
-
+    </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>
