@@ -73,8 +73,8 @@ The project follows a clean architecture pattern with separation of concerns:
 - **Limited Offline Functionality:** While movies are cached, the app may not update or support all interactions in offline mode.
 - **Cast and Similar Movies:** These features depend on TMDB’s available data. If a movie has missing cast or similar movies information, those sections might appear empty.
 - **Trailer URL:** The trailer button uses a placeholder URL. Integration with TMDB’s trailer endpoint (or YouTube API) can further enhance this feature.
-- **Bookmarking.
-- **Search Capabilities.
+- **Bookmarking**.
+- **Search Capabilities**.
 
 
 ## Contributing
