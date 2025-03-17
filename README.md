@@ -27,7 +27,7 @@ The project follows a clean architecture pattern with separation of concerns:
 
 ## Libraries Used
 
-- **Retrofit:** Used for making network calls to the TMDB API.
+- **Retrofit:** Used for making network calls to the TMDB API. 
 - **RxJava2:** Manages asynchronous API calls and handles threading.
 - **Glide:** Loads and caches images (e.g., movie posters and cast profile images).
 - **Room:** Provides local database storage and ORM for caching movies.
