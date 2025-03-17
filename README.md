@@ -9,7 +9,7 @@ The Trending Movies App retrieves movie data from TMDB and displays it in a visu
 - View trending and now playing movies.
 - Tap on a movie to see detailed information including release date, rating, cast, trailer, and similar movies.
 
-The project follows a clean architecture pattern with separation of concerns:
+The project follows a clean architecture pattern with separation of concerns: 
 - **Presentation layer:** Uses MVVM with LiveData and ViewModel.
 - **Data layer:** Communicates with the TMDB API via Retrofit and uses RxJava2 for asynchronous calls.
 - **Local storage:** Persists movie data using Room for offline support.
@@ -81,3 +81,17 @@ The project follows a clean architecture pattern with separation of concerns:
 ## Contributing
 
 Feel free to fork this repository and submit pull requests. When contributing, please follow standard code style guidelines and write tests where appropriate.
+
+![image](https://github.com/user-attachments/assets/9e84833a-2642-4970-8a58-6fd687604f7e)
+
+![image](https://github.com/user-attachments/assets/134ac94b-2b27-4496-956d-7f9664c96f2f)
+
+![image](https://github.com/user-attachments/assets/5ad81474-8dae-459d-a5e9-4c6a24a3359f)
+
+![image](https://github.com/user-attachments/assets/1fd9accb-b023-4491-80af-1eb84933a9af)
+
+![image](https://github.com/user-attachments/assets/cae2b958-d93b-4f73-ba7d-25a06842f309)
+
+![image](https://github.com/user-attachments/assets/2220efd1-5ca8-42d2-b60d-ac51452dda7c)
+
+![image](https://github.com/user-attachments/assets/11aa6f00-bd80-4728-842a-4fe243582d20)
