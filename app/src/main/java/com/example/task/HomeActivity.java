@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         movieViewModel.getErrorMessage().observe(this, error -> {
             if (error != null) {
                 Toast.makeText(this, error, Toast.LENGTH_LONG).show();
-            }
+            } 
         });
     }
 

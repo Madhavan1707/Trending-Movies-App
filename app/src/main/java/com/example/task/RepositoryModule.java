@@ -15,7 +15,7 @@ public class RepositoryModule {
     }
 
     @Singleton
-    @Provides
+    @Provides 
     MovieRepository provideMovieRepository(TMDBService tmdbService, MovieDatabase movieDatabase) {
         return new MovieRepository(tmdbService, movieDatabase.movieDao(), apiKey);
     }

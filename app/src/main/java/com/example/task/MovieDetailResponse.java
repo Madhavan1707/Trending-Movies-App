@@ -8,7 +8,7 @@ public class MovieDetailResponse {
     @SerializedName("title")
     public String title;
     @SerializedName("overview")
-    public String overview;
+    public String overview; 
     @SerializedName("poster_path")
     public String posterPath;
     @SerializedName("release_date")
