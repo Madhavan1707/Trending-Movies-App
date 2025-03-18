@@ -5,7 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import com.example.task.Movie;
+import com.example.task.Movie; 
 import com.example.task.MovieRepository;
 import java.util.List;
 import io.reactivex.disposables.CompositeDisposable;

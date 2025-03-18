@@ -11,7 +11,7 @@ public class Video {
 
     @SerializedName("site")
     public String site;
-
+ 
     @SerializedName("type")
     public String type;
 }
