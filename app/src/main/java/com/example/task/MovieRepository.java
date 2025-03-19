@@ -46,14 +46,16 @@ public class MovieRepository {
                 .map(response -> response.results);
     }
 
-    // New methods:
+    // New method: get detailed movie info
     public Single<MovieDetailResponse> getMovieDetails(int movieId) {
         return tmdbService.getMovieDetails(movieId, apiKey)
                 .subscribeOn(Schedulers.io());
     }
 
+    // New method: get bookmarked movies
     public Single<List<Movie>> getBookmarkedMovies() {
-        return movieDao.getBookmarkedMovies();
+        return movieDao.getBookmarkedMovies()
+                .subscribeOn(Schedulers.io());
     }
 
     public Single<List<Movie>> getLocalMovies() {
@@ -61,7 +63,19 @@ public class MovieRepository {
                 .subscribeOn(Schedulers.io());
     }
 
+    // New method: get a single movie (for bookmark status)
+    public Single<Movie> getMovieById(int movieId) {
+        return movieDao.getMovieById(movieId)
+                .subscribeOn(Schedulers.io());
+    }
 
+    // New method: update the bookmark status in the local DB
+    public void updateBookmarkStatus(int movieId, boolean bookmarked) {
+        // Run the DB update on an IO thread
+        Schedulers.io().scheduleDirect(() -> {
+            movieDao.updateBookmarkStatus(movieId, bookmarked);
+        });
+    }
 
     public Single<CreditsResponse> getCreditsForMovie(int movieId) {
         return tmdbService.getCreditsForMovie(movieId, apiKey)
@@ -74,6 +88,7 @@ public class MovieRepository {
                 .map(response -> response.results);
     }
 }
+
 
 
 
