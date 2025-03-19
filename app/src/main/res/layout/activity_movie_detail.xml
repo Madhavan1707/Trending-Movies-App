@@ -42,6 +42,7 @@
                 android:layout_gravity="top"
                 app:layout_collapseMode="pin" />
 
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -136,6 +137,12 @@
                 android:layout_marginTop="16dp"
                 style="@style/Widget.MaterialComponents.Button"
                 />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonBookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bookmark" />
+
 
 
             <!-- Similar Movies Section -->
