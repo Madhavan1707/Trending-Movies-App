@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         movieViewModel.getErrorMessage().observe(this, error -> {
             if (error != null) {
                 Toast.makeText(this, error, Toast.LENGTH_LONG).show();
-            } 
+            }
         });
     }
 
@@ -73,8 +73,12 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_search) {
+        int id = item.getItemId();
+        if (id == R.id.action_search) {
             startActivity(new Intent(this, SearchActivity.class));
+            return true;
+        } else if (id == R.id.action_bookmarks) {
+            startActivity(new Intent(this, BookmarksActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
