@@ -2,6 +2,7 @@ package com.example.task;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import java.util.ArrayList;
 import javax.inject.Inject;
@@ -21,6 +23,7 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
     private MaterialToolbar topAppBar;
+    private SwipeRefreshLayout swipeRefreshLayout; // New: SwipeRefreshLayout reference
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +32,21 @@ public class HomeActivity extends AppCompatActivity {
 
         ((MainApplication) getApplication()).getAppComponent().inject(this);
 
+        // Set up the top app bar
         topAppBar = findViewById(R.id.topAppBar);
         setSupportActionBar(topAppBar);
-
         if (getSupportActionBar() != null) {
-            // Make sure we show the title in the toolbar
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setTitle("Trending Movies");
         }
+
+        // Get reference to SwipeRefreshLayout
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            Log.d("HOMEACTIVITY", "Pull-to-refresh triggered");
+            // On swipe down, re-fetch trending movies
+            movieViewModel.fetchTrendingMovies();
+        });
 
         recyclerView = findViewById(R.id.recyclerViewMovies);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
@@ -56,11 +66,24 @@ public class HomeActivity extends AppCompatActivity {
         movieViewModel.getTrendingMovies().observe(this, movies -> {
             if (movies != null && !movies.isEmpty()) {
                 movieAdapter.updateMovies(movies);
+                Log.d("HA", "New data retrieved: " + movies.size() + " movies");
+            }
+            else{
+                Log.d("HA", "No new movies retrieved");
+            }
+            // Stop the refresh animation when data is loaded
+            if (swipeRefreshLayout.isRefreshing()) {
+                Log.d("HA", "closing refresh animation when data is loaded");
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
         movieViewModel.getErrorMessage().observe(this, error -> {
             if (error != null) {
                 Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+                // Stop refreshing even on error
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
     }
