@@ -15,23 +15,48 @@ public class MovieRepository {
         this.apiKey = apiKey;
     }
 
+    // Modified getTrendingMovies: preserves the local bookmarked flag
     public Single<List<Movie>> getTrendingMovies() {
         return tmdbService.getTrendingMovies(apiKey)
                 .subscribeOn(Schedulers.io())
-                .map(response -> {
+                .flatMap(response -> {
                     List<Movie> movies = response.results;
+                    // For each movie from network, check if a local copy exists and preserve its bookmark status.
+                    for (Movie movie : movies) {
+                        try {
+                            Movie local = movieDao.getMovieById(movie.id).blockingGet();
+                            if (local != null) {
+                                movie.bookmarked = local.bookmarked;
+                            }
+                        } catch (Exception e) {
+                            // In case the movie is not in the local DB, ignore
+                        }
+                    }
+                    // Insert (or replace) movies into the DB
                     movieDao.insertMovies(movies);
-                    return movies;
+                    return Single.just(movies);
                 });
     }
 
+    // Modified getNowPlayingMovies: preserves the local bookmarked flag
     public Single<List<Movie>> getNowPlayingMovies() {
         return tmdbService.getNowPlayingMovies(apiKey)
                 .subscribeOn(Schedulers.io())
-                .map(response -> {
+                .flatMap(response -> {
                     List<Movie> movies = response.results;
+                    // For each movie, preserve the local bookmarked flag if exists
+                    for (Movie movie : movies) {
+                        try {
+                            Movie local = movieDao.getMovieById(movie.id).blockingGet();
+                            if (local != null) {
+                                movie.bookmarked = local.bookmarked;
+                            }
+                        } catch (Exception e) {
+                            // Ignore if not found
+                        }
+                    }
                     movieDao.insertMovies(movies);
-                    return movies;
+                    return Single.just(movies);
                 });
     }
 
