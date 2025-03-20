@@ -17,24 +17,26 @@
             android:layout_height="?attr/actionBarSize"
             android:backgroundTint="@color/purple_700"
             android:elevation="8dp"
-        android:title="Trending Movies"
-        android:titleTextColor="@android:color/white"
-
-        android:theme="@style/ThemeOverlay.Material3.ActionBar"
-
+            android:title="Trending Movies"
+            android:titleTextColor="@android:color/white"
+            android:theme="@style/ThemeOverlay.Material3.ActionBar"
             app:contentInsetStartWithNavigation="0dp"
             app:contentInsetEndWithActions="0dp"
-
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-            />
-
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewMovies"
+    <!-- Wrap RecyclerView with SwipeRefreshLayout for pull-to-refresh -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewMovies"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
