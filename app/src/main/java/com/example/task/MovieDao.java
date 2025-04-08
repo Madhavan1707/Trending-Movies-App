@@ -12,7 +12,7 @@ import io.reactivex.Single;
 public interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMovies(List<Movie> movies);
-
+     
     @Query("SELECT * FROM movies")
     Single<List<Movie>> getAllMovies();
 
